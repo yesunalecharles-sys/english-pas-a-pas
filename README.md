@@ -10,6 +10,8 @@ Chaque unité commence par une courte histoire (Amina, sa famille et son collèg
 - `data.js` : les unités, les mots et les leçons
 - `stories.js` : les histoires, les questions, les phrases à trous et les questions pour le club
 - `art.js` : les illustrations dessinées
-- `app.js` : le fonctionnement (jeux, micro, points)
+- `app.js` : le fonctionnement (jeux, micro, points, installation)
+- `sw.js` et `manifest.webmanifest` : l'installation sur le téléphone et le fonctionnement hors ligne (changer `VERSION` dans `sw.js` à chaque mise à jour)
+- `icons/` : les icônes de l'application
 
-Le micro fonctionne dans Chrome (ordinateur, Android) et Safari (iPhone), avec une connexion internet. La progression est enregistrée sur l'appareil de chaque joueur.
+Le micro fonctionne dans Chrome (ordinateur, Android) et Safari (iPhone), avec une connexion internet. L'application s'installe depuis Chrome (« Installer l'application ») et fonctionne ensuite sans internet, sauf les exercices au micro. La progression est enregistrée sur l'appareil de chaque joueur.

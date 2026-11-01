@@ -90,6 +90,23 @@ const ART = {
   health: c => svg(
     '<path d="M60 98 C20 72 16 50 26 38 C36 26 52 30 60 42 C68 30 84 26 94 38 C104 50 100 72 60 98Z" fill="' + WHITE + '"/>' +
     '<rect x="52" y="44" width="16" height="40" rx="3" fill="#d62828"/><rect x="40" y="56" width="40" height="16" rx="3" fill="#d62828"/>', c),
+  restaurant: c => svg(
+    '<circle cx="60" cy="64" r="34" fill="' + WHITE + '"/><circle cx="60" cy="64" r="24" fill="none" stroke="' + INK + '" stroke-width="2" opacity=".2"/>' +
+    '<ellipse cx="54" cy="66" rx="13" ry="8" fill="#e76f51"/><circle cx="66" cy="58" r="6" fill="#90be6d"/><circle cx="68" cy="70" r="5" fill="#ffbf1f"/>' +
+    '<path d="M18 36 v18 q0 6 4 6 v34" stroke="' + INK + '" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M14 36 v14 M22 36 v14" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
+    '<path d="M102 36 q-10 10 0 26 v32" stroke="' + INK + '" stroke-width="4" fill="none" stroke-linecap="round"/>', c),
+  interview: c => svg(person(34, 50, SKIN1, "#15233b", .85) + person(86, 50, SKIN3, "#2a9d8f", .85) +
+    '<rect x="10" y="80" width="100" height="10" rx="4" fill="#bc6c25"/><rect x="48" y="66" width="22" height="16" rx="2" fill="' + WHITE + '"/><path d="M52 71 h14 M52 76 h10" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M50 30 l5 5 l10 -12" stroke="' + WHITE + '" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>', c),
+  clothes: c => svg(
+    '<path d="M60 20 q-6 0 -6 6 q0 5 6 6 v6" stroke="' + INK + '" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M60 38 L18 56 h84Z" stroke="' + INK + '" stroke-width="3" fill="none" stroke-linejoin="round"/>' +
+    '<path d="M40 52 L26 62 L32 74 L40 70 V100 H80 V70 L88 74 L94 62 L80 52 Q70 58 60 58 Q50 58 40 52Z" fill="' + WHITE + '"/>' +
+    '<path d="M60 58 v42" stroke="' + INK + '" stroke-width="1.5" opacity=".3"/><circle cx="60" cy="68" r="1.8" fill="' + INK + '"/><circle cx="60" cy="78" r="1.8" fill="' + INK + '"/><circle cx="60" cy="88" r="1.8" fill="' + INK + '"/>' +
+    '<rect x="84" y="80" width="22" height="14" rx="3" fill="#ffbf1f" transform="rotate(-15 95 87)"/><circle cx="88" cy="86" r="2" fill="' + INK + '"/>', c),
+  weather: c => svg(
+    '<circle cx="42" cy="42" r="16" fill="#ffbf1f"/><g stroke="#ffbf1f" stroke-width="4" stroke-linecap="round"><path d="M42 16 v-6 M42 74 v-6 M16 42 h-6 M24 24 l-4 -4 M60 24 l4 -4 M24 60 l-4 4"/></g>' +
+    '<path d="M44 78 q-14 0 -14 -12 q0 -12 14 -12 q4 -14 20 -14 q16 0 20 14 q14 0 14 12 q0 12 -14 12Z" fill="' + WHITE + '"/>' +
+    '<g stroke="' + INK + '" stroke-width="4" stroke-linecap="round"><path d="M50 88 l-4 10 M66 88 l-4 10 M82 88 l-4 10"/></g>', c),
   hero: () =>
     '<svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
     '<circle cx="290" cy="60" r="70" fill="#ffffff" opacity=".18"/><circle cx="60" cy="210" r="60" fill="#ffffff" opacity=".12"/>' +

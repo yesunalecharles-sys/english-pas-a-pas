@@ -471,5 +471,129 @@ const STORIES = {
       ["The next morning, Amina calls the hospital to make an ___.", "appointment", "Le lendemain matin, Amina appelle l'hôpital pour prendre rendez-vous.", ["medicine", "fever", "doctor"]],
       ["On the way home, Amina buys the medicine at the ___.", "pharmacy", "Sur le chemin du retour, Amina achète les médicaments à la pharmacie.", ["nurse", "headache", "fever"]]
     ],
-    discuss: ["What do you do when you have a fever?", "Practise a dialogue between a patient and a doctor.", "What can we do every day to stay healthy?"] }
+    discuss: ["What do you do when you have a fever?", "Practise a dialogue between a patient and a doctor.", "What can we do every day to stay healthy?"] },
+
+  restaurant: { title: "Dinner to celebrate",
+    lines: [
+      ["Amina is back from Accra, and her training was a big success.", "Amina est rentrée d'Accra, et sa formation a été un grand succès."],
+      ["To celebrate, Ibrahim invites her and Kofi to a restaurant near the river.", "Pour fêter ça, Ibrahim l'invite avec Kofi dans un restaurant près du fleuve."],
+      ["“Good evening. Do you have a table for three?” Ibrahim asks.", "« Bonsoir. Avez-vous une table pour trois ? » demande Ibrahim."],
+      ["The waiter takes them to a quiet table outside and gives them the menu.", "Le serveur les conduit à une table tranquille dehors et leur donne la carte."],
+      ["“Are you ready to order?” he asks a few minutes later.", "« Vous avez choisi ? » demande-t-il quelques minutes plus tard."],
+      ["“Yes. I'd like the grilled fish with rice, please,” says Amina.", "« Oui. Je voudrais le poisson grillé avec du riz, s'il vous plaît », dit Amina."],
+      ["Kofi wants to order the chicken, but he asks, “Is it spicy?”", "Kofi veut commander le poulet, mais il demande : « Est-ce que c'est épicé ? »"],
+      ["“Yes, a little,” answers the waiter. “It's our most popular dish.”", "« Oui, un peu », répond le serveur. « C'est notre plat le plus demandé. »"],
+      ["“Perfect! I love spicy food,” Kofi says with a smile.", "« Parfait ! J'adore la nourriture épicée », dit Kofi en souriant."],
+      ["Ibrahim orders the meat and three glasses of mango juice.", "Ibrahim commande la viande et trois verres de jus de mangue."],
+      ["The food arrives quickly, and everything is delicious.", "Les plats arrivent vite, et tout est délicieux."],
+      ["After the meal, Amina chooses a chocolate cake for dessert.", "Après le repas, Amina choisit un gâteau au chocolat comme dessert."],
+      ["At ten o'clock, Ibrahim says, “Can I have the bill, please?”", "À dix heures, Ibrahim dit : « L'addition, s'il vous plaît. »"],
+      ["The bill is twenty-four thousand francs, and Ibrahim leaves a small tip for the waiter.", "L'addition est de vingt-quatre mille francs, et Ibrahim laisse un petit pourboire au serveur."],
+      ["“Thank you for this lovely evening,” says Kofi. “Next time, I will invite you!”", "« Merci pour cette belle soirée », dit Kofi. « La prochaine fois, c'est moi qui vous invite ! »"]
+    ],
+    questions: [
+      ["Why do they go to the restaurant?", "to celebrate Amina's training", "for Kofi's birthday", "for a business meeting", "because it is Sunday"],
+      ["What does Amina order?", "grilled fish with rice", "spicy chicken", "meat and onions", "a salad"],
+      ["What do they drink?", "mango juice", "water", "tea", "milk"],
+      ["How much is the bill?", "twenty-four thousand francs", "fourteen thousand francs", "four thousand francs", "forty thousand francs"]
+    ],
+    gaps: [
+      ["The waiter takes them to a quiet table outside and gives them the ___.", "menu", "Le serveur les conduit à une table tranquille dehors et leur donne la carte.", ["bill", "tip", "dessert"]],
+      ["The food arrives quickly, and everything is ___.", "delicious", "Les plats arrivent vite, et tout est délicieux.", ["spicy", "juice", "menu"]],
+      ["Ibrahim leaves a small ___ for the waiter.", "tip", "Ibrahim laisse un petit pourboire au serveur.", ["table", "menu", "dessert"]]
+    ],
+    discuss: ["Order a meal in pairs: one person is the waiter, the other is the customer.", "What is your favourite restaurant? What do you usually order?", "Do people leave a tip in your country? How much?"] },
+
+  interview: { title: "Yacouba's job interview",
+    lines: [
+      ["Amina's younger brother, Yacouba, is looking for his first job.", "Le petit frère d'Amina, Yacouba, cherche son premier emploi."],
+      ["He sends his CV to Sahel Accounting for a position as an assistant accountant.", "Il envoie son CV à Sahel Accounting pour un poste d'assistant comptable."],
+      ["Two days later, the manager, Mr Diallo, invites him to an interview.", "Deux jours plus tard, le responsable, M. Diallo, le convoque à un entretien."],
+      ["The night before, Amina helps him to prepare his answers in English.", "La veille, Amina l'aide à préparer ses réponses en anglais."],
+      ["On the day of the interview, Yacouba arrives fifteen minutes early.", "Le jour de l'entretien, Yacouba arrive quinze minutes en avance."],
+      ["“Good morning, please sit down. Tell me about yourself,” says Mr Diallo.", "« Bonjour, asseyez-vous. Parlez-moi de vous », dit M. Diallo."],
+      ["“I studied accounting at university, and I finished my degree last year.”", "« J'ai étudié la comptabilité à l'université, et j'ai terminé ma licence l'année dernière. »"],
+      ["“I have six months of experience: I did an internship in a small company.”", "« J'ai six mois d'expérience : j'ai fait un stage dans une petite entreprise. »"],
+      ["“What are your skills?” asks Mr Diallo.", "« Quelles sont vos compétences ? » demande M. Diallo."],
+      ["“I am good at Excel, and I can use Sage accounting software.”", "« Je maîtrise Excel, et je sais utiliser le logiciel de comptabilité Sage. »"],
+      ["“What is your main strength, and what is your weakness?”", "« Quel est votre principal point fort, et quel est votre point faible ? »"],
+      ["“My strength is that I am very organised. My weakness is my English, but I am taking lessons every week.”", "« Mon point fort, c'est que je suis très organisé. Mon point faible, c'est mon anglais, mais je prends des cours chaque semaine. »"],
+      ["Then they talk about the salary and the working hours.", "Ensuite, ils parlent du salaire et des horaires de travail."],
+      ["At the end, Mr Diallo says, “Thank you. We will call you on Friday.”", "À la fin, M. Diallo dit : « Merci. Nous vous appellerons vendredi. »"],
+      ["On Friday, the phone rings: Yacouba is the best candidate, and he gets the job!", "Vendredi, le téléphone sonne : Yacouba est le meilleur candidat, et il obtient le poste !"]
+    ],
+    questions: [
+      ["What position does Yacouba want?", "assistant accountant", "manager", "secretary", "driver"],
+      ["How much experience does he have?", "six months", "two years", "six years", "no experience"],
+      ["What is his main strength?", "he is very organised", "his English", "he speaks three languages", "he is very fast"],
+      ["When does Mr Diallo call him?", "on Friday", "on Monday", "the next day", "after two weeks"]
+    ],
+    gaps: [
+      ["He sends his ___ to Sahel Accounting for a position as an assistant accountant.", "CV", "Il envoie son CV à Sahel Accounting pour un poste d'assistant comptable.", ["salary", "weakness", "manager"]],
+      ["“I have six months of ___: I did an internship in a small company.”", "experience", "« J'ai six mois d'expérience : j'ai fait un stage dans une petite entreprise. »", ["interview", "strength", "position"]],
+      ["Yacouba is the best ___, and he gets the job!", "candidate", "Yacouba est le meilleur candidat, et il obtient le poste !", ["salary", "skills", "CV"]]
+    ],
+    discuss: ["Answer the question “Tell me about yourself” in one minute.", "What is your main strength? Give an example.", "Practise a job interview in pairs: one person is the manager, the other is the candidate."] },
+
+  clothes: { title: "A shirt for the wedding",
+    lines: [
+      ["Ibrahim's best friend is getting married next Saturday.", "Le meilleur ami d'Ibrahim se marie samedi prochain."],
+      ["Ibrahim needs a new shirt and new shoes for the wedding.", "Ibrahim a besoin d'une nouvelle chemise et de nouvelles chaussures pour le mariage."],
+      ["On Thursday evening, he goes shopping with Amina at the market.", "Jeudi soir, il fait les courses avec Amina au marché."],
+      ["In the first shop, he sees a beautiful blue shirt.", "Dans la première boutique, il voit une belle chemise bleue."],
+      ["“How much is this shirt?” he asks the seller.", "« Combien coûte cette chemise ? » demande-t-il au vendeur."],
+      ["“Fifteen thousand francs. It's very good quality,” the seller answers.", "« Quinze mille francs. C'est de très bonne qualité », répond le vendeur."],
+      ["“Can I try it on, please?”", "« Puis-je l'essayer, s'il vous plaît ? »"],
+      ["The shirt is too big, so the seller brings a smaller size.", "La chemise est trop grande, alors le vendeur apporte une taille plus petite."],
+      ["This time, it fits perfectly, but the price is still expensive.", "Cette fois, elle lui va parfaitement, mais le prix est toujours élevé."],
+      ["“Can you give me a discount?” asks Amina with a smile.", "« Pouvez-vous nous faire une réduction ? » demande Amina en souriant."],
+      ["After a long discussion, the seller agrees: twelve thousand francs.", "Après une longue discussion, le vendeur accepte : douze mille francs."],
+      ["Then they find black shoes that are cheaper than in the big shops.", "Ensuite, ils trouvent des chaussures noires moins chères que dans les grands magasins."],
+      ["Amina also sees a green dress and black trousers for Moussa.", "Amina voit aussi une robe verte, et un pantalon noir pour Moussa."],
+      ["“We came for one shirt, and now we have four bags!” laughs Ibrahim.", "« On est venus pour une chemise, et maintenant on a quatre sacs ! » dit Ibrahim en riant."],
+      ["On Saturday, everybody at the wedding says, “Ibrahim, you look very smart!”", "Samedi, au mariage, tout le monde dit : « Ibrahim, tu es très élégant ! »"]
+    ],
+    questions: [
+      ["Why does Ibrahim need new clothes?", "for his friend's wedding", "for a job interview", "for his birthday", "for a trip to Accra"],
+      ["What is the problem with the first shirt?", "it is too big", "it is too small", "it is the wrong colour", "it is dirty"],
+      ["How much does Ibrahim pay for the shirt?", "twelve thousand francs", "fifteen thousand francs", "twenty thousand francs", "ten thousand francs"],
+      ["How many bags do they have at the end?", "four", "one", "two", "three"]
+    ],
+    gaps: [
+      ["The shirt is too big, so the seller brings a smaller ___.", "size", "La chemise est trop grande, alors le vendeur apporte une taille plus petite.", ["price", "discount", "dress"]],
+      ["“Can you give me a ___?” asks Amina with a smile.", "discount", "« Pouvez-vous nous faire une réduction ? » demande Amina en souriant.", ["size", "shirt", "price"]],
+      ["Then they find black shoes that are ___ than in the big shops.", "cheaper", "Ensuite, ils trouvent des chaussures noires moins chères que dans les grands magasins.", ["expensive", "bigger", "smaller"]]
+    ],
+    discuss: ["Describe what you are wearing today.", "Practise buying clothes in pairs, and ask for a discount.", "Is it better to buy clothes at the market or in a big shop? Why?"] },
+
+  weather: { title: "A storm in Niamey",
+    lines: [
+      ["In Niamey, there are two main seasons: the dry season and the rainy season.", "À Niamey, il y a deux grandes saisons : la saison sèche et la saison des pluies."],
+      ["In April and May, it is very hot, and the temperature can reach forty-five degrees.", "En avril et en mai, il fait très chaud, et la température peut atteindre quarante-cinq degrés."],
+      ["One afternoon in June, the sky suddenly becomes dark.", "Un après-midi de juin, le ciel devient soudain sombre."],
+      ["A strong wind starts to blow, and a big cloud of dust covers the town.", "Un vent fort se met à souffler, et un gros nuage de poussière recouvre la ville."],
+      ["“Close the windows, quickly! A storm is coming!” shouts Amina.", "« Fermez les fenêtres, vite ! Un orage arrive ! » crie Amina."],
+      ["Moussa and Fati run inside the house.", "Moussa et Fati courent à l'intérieur de la maison."],
+      ["A few minutes later, it starts to rain very hard.", "Quelques minutes plus tard, il se met à pleuvoir très fort."],
+      ["Fati is a little afraid of the thunder, so she sits next to her mother.", "Fati a un peu peur du tonnerre, alors elle s'assoit à côté de sa mère."],
+      ["“Don't worry. The rain is good for the farmers,” Amina says.", "« Ne t'inquiète pas. La pluie est bonne pour les agriculteurs », dit Amina."],
+      ["After one hour, the storm stops, and the air is fresh and cool.", "Au bout d'une heure, l'orage s'arrête, et l'air est frais."],
+      ["The children go outside to play in the water.", "Les enfants sortent jouer dans l'eau."],
+      ["In the evening, the sun comes back, and the sky is orange and pink.", "Le soir, le soleil revient, et le ciel est orange et rose."],
+      ["“Which season do you prefer?” Ibrahim asks the children.", "« Quelle saison préférez-vous ? » demande Ibrahim aux enfants."],
+      ["“I prefer December, because it is cold in the morning,” says Moussa.", "« Je préfère décembre, parce qu'il fait froid le matin », dit Moussa."],
+      ["“And I prefer the rainy season, because everything is green!” says Fati.", "« Et moi, je préfère la saison des pluies, parce que tout est vert ! » dit Fati."]
+    ],
+    questions: [
+      ["When is it very hot in Niamey?", "in April and May", "in December", "in August", "in January"],
+      ["What covers the town before the storm?", "a big cloud of dust", "a lot of snow", "a lot of water", "a big rainbow"],
+      ["How long does the storm last?", "one hour", "ten minutes", "all night", "three days"],
+      ["Why does Moussa prefer December?", "because it is cold in the morning", "because everything is green", "because there is no school", "because it rains a lot"]
+    ],
+    gaps: [
+      ["A strong ___ starts to blow, and a big cloud of dust covers the town.", "wind", "Un vent fort se met à souffler, et un gros nuage de poussière recouvre la ville.", ["sun", "season", "temperature"]],
+      ["“Close the windows, quickly! A ___ is coming!” shouts Amina.", "storm", "« Fermez les fenêtres, vite ! Un orage arrive ! » crie Amina.", ["sun", "season", "hot"]],
+      ["In the evening, the ___ comes back, and the sky is orange and pink.", "sun", "Le soir, le soleil revient, et le ciel est orange et rose.", ["rain", "dust", "cold"]]
+    ],
+    discuss: ["What's the weather like today? Describe it.", "Which season do you prefer? Why?", "What do you do when there is a dust storm?"] }
 };

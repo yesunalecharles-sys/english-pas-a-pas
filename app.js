@@ -72,7 +72,7 @@ const MIC_ERR = {
   "not-allowed": "Le micro est bloqué. Touchez le cadenas à côté de l'adresse, puis autorisez le micro.",
   "service-not-allowed": "Le micro est bloqué. Touchez le cadenas à côté de l'adresse, puis autorisez le micro.",
   "no-speech": "Je n'ai rien entendu. Touchez le micro et parlez juste après.",
-  "network": "La reconnaissance vocale a besoin d'internet. Vérifiez votre connexion.",
+  "network": "Le micro a besoin d'internet. Connectez-vous pour cet exercice, ou continuez avec les autres jeux.",
   "audio-capture": "Aucun micro trouvé sur cet appareil.",
   "start": "Le micro n'a pas pu démarrer. Réessayez."
 };
@@ -145,7 +145,7 @@ function welcome() {
         "</form></div>" +
       '<div class="welcome-art">' + ART.hero() + "</div>" +
     "</div>" +
-    '<div class="features">' +
+    '<div id="installZone"></div><div class="features">' +
       '<div class="feature"><span class="ic">📚</span><h3>' + UNITS.length + ' unités illustrées</h3><span class="muted">Salutations, marché, bureau, téléphone, banque, voyage, santé…</span></div>' +
       '<div class="feature"><span class="ic">📖</span><h3>Une histoire par unité</h3><span class="muted">Suivez Amina, sa famille et son collègue Kofi. Écoutez, puis lisez à voix haute.</span></div>' +
       '<div class="feature"><span class="ic">🎙️</span><h3>8 jeux, dont 2 à l\'oral</h3><span class="muted">Questions sur l\'histoire, répétition, quiz, paires, écoute, dictée, phrases.</span></div>' +
@@ -155,6 +155,7 @@ function welcome() {
     chosen = b.dataset.lv;
     $app.querySelectorAll("[data-lv]").forEach(x => x.setAttribute("aria-pressed", x === b));
   });
+  renderInstall();
   document.getElementById("startForm").onsubmit = e => {
     e.preventDefault();
     const n = document.getElementById("name").value.trim();
@@ -179,9 +180,10 @@ function home() {
       '<span class="meta"><span class="s">Unité ' + (i + 1) + " · " + esc(u.en) + '</span><span class="t">' + esc(u.title) + "</span>" +
       '<span class="s">' + s + " / " + MAX_UNIT + ' étoiles</span><span class="prog"><i style="width:' + Math.round(s / MAX_UNIT * 100) + '%"></i></span></span></button>';
   });
-  h += '</div><div class="foot"><span>Progression gardée sur cet appareil.</span><span class="confirm" id="zone">' +
+  h += '</div><div id="installZone"></div><div class="foot"><span>Progression gardée sur cet appareil.</span><span class="confirm" id="zone">' +
     '<button class="btn alt" id="rename">Changer de prénom</button><button class="btn alt" id="reset">Recommencer à zéro</button></span></div>';
   $app.innerHTML = h;
+  renderInstall();
   $app.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { P.level = b.dataset.tab; save(); home(); });
   $app.querySelectorAll("[data-unit]").forEach(b => b.onclick = () => unit(b.dataset.unit));
   document.getElementById("rename").onclick = welcome;
@@ -555,6 +557,30 @@ function repeat(u) {
     setTimeout(() => speak(txt), 300);
   };
   show();
+}
+
+
+/* ---------- Installation sur le téléphone (application hors ligne) ---------- */
+let installEvt = null;
+const isStandalone = () => (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; renderInstall(); });
+window.addEventListener("appinstalled", () => { installEvt = null; renderInstall(); });
+function renderInstall() {
+  const z = document.getElementById("installZone");
+  if (!z) return;
+  if (isStandalone()) { z.innerHTML = ""; return; }
+  if (installEvt) {
+    z.innerHTML = '<div class="install"><div><b>📲 Installez l\'application</b><span>Elle s\'ouvrira depuis votre écran d\'accueil, même sans internet.</span></div><button class="btn" id="doInstall">Installer</button></div>';
+    document.getElementById("doInstall").onclick = async () => { installEvt.prompt(); try { await installEvt.userChoice; } catch (e) {} installEvt = null; renderInstall(); };
+  } else if (isIOS()) {
+    z.innerHTML = '<div class="install"><div><b>📲 Installer sur iPhone</b><span>Dans Safari, touchez le bouton Partager, puis « Sur l\'écran d\'accueil ».</span></div></div>';
+  } else {
+    z.innerHTML = '<div class="install"><div><b>📲 Utiliser sans internet</b><span>Dans Chrome, ouvrez le menu ⋮ puis « Installer l\'application » ou « Ajouter à l\'écran d\'accueil ».</span></div></div>';
+  }
+}
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
 }
 
 /* ---------- Démarrage ---------- */
