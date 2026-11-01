@@ -1,7 +1,6 @@
 /* Contenu pédagogique de English Pas à Pas.
    Chaque unité : mots [anglais, français, pictogramme], phrases [anglais, français]
-   (la ponctuation est séparée par des espaces pour le jeu « Construire la phrase »),
-   phrases à trous [phrase avec ___, mot manquant, traduction], et une courte leçon. */
+   et une courte leçon. Les histoires et leurs questions sont dans stories.js. */
 
 const LEVELS = {
   debutant: { name: "Débutant", desc: "Les mots et phrases de tous les jours" },
@@ -17,9 +16,7 @@ const UNITS = [
                "« Good night » ne sert qu'à dire au revoir le soir, avant d'aller dormir. Ce n'est pas « bonsoir ».",
                "À « How are you? », on répond simplement « I'm fine, thank you. And you? »"],
       examples: [["Good morning, Mr Musa.", "Bonjour, M. Moussa."], ["I'm fine, thank you. And you?", "Je vais bien, merci. Et vous ?"]] },
-    words: [["hello","bonjour / salut","👋"],["good morning","bonjour (le matin)","🌅"],["good evening","bonsoir","🌇"],["good night","bonne nuit","🌙"],["goodbye","au revoir","🚶"],["please","s'il vous plaît","🙏"],["thank you","merci","😊"],["sorry","pardon / désolé","😔"],["yes","oui","✅"],["no","non","❌"]],
-    sentences: [["How are you ?","Comment allez-vous ?"],["I am fine , thank you","Je vais bien, merci"],["Nice to meet you","Enchanté de vous rencontrer"],["See you tomorrow","À demain"]],
-    gaps: [["___ , how are you?","hello","Bonjour, comment allez-vous ?"],["Can you help me, ___?","please","Pouvez-vous m'aider, s'il vous plaît ?"],["___ for your help.","thank you","Merci pour votre aide."]] },
+    words: [["hello","bonjour / salut","👋"],["good morning","bonjour (le matin)","🌅"],["good evening","bonsoir","🌇"],["good night","bonne nuit","🌙"],["goodbye","au revoir","🚶"],["please","s'il vous plaît","🙏"],["thank you","merci","😊"],["sorry","pardon / désolé","😔"],["yes","oui","✅"],["no","non","❌"]], },
 
   { id: "numbers", level: "debutant", art: "numbers", color: "#3a86ff",
     title: "Les nombres", en: "Numbers",
@@ -28,9 +25,7 @@ const UNITS = [
                "Les dizaines se terminent par « -ty » : twenty (20), thirty (30), forty (40), fifty (50).",
                "Attention à la prononciation : « thirteen » (13) appuie sur la fin, « thirty » (30) sur le début."],
       examples: [["I am thirty years old.", "J'ai trente ans."], ["It costs fifteen thousand francs.", "Ça coûte quinze mille francs."]] },
-    words: [["one","un","1️⃣"],["two","deux","2️⃣"],["three","trois","3️⃣"],["four","quatre","4️⃣"],["five","cinq","5️⃣"],["six","six","6️⃣"],["seven","sept","7️⃣"],["eight","huit","8️⃣"],["nine","neuf","9️⃣"],["ten","dix","🔟"]],
-    sentences: [["I have two children","J'ai deux enfants"],["It costs five hundred francs","Ça coûte cinq cents francs"],["The office opens at eight","Le bureau ouvre à huit heures"]],
-    gaps: [["I have ___ hands.","two","J'ai deux mains."],["A week has ___ days.","seven","Une semaine a sept jours."],["I start work at ___ o'clock.","eight","Je commence le travail à huit heures."]] },
+    words: [["one","un","1️⃣"],["two","deux","2️⃣"],["three","trois","3️⃣"],["four","quatre","4️⃣"],["five","cinq","5️⃣"],["six","six","6️⃣"],["seven","sept","7️⃣"],["eight","huit","8️⃣"],["nine","neuf","9️⃣"],["ten","dix","🔟"]], },
 
   { id: "colours", level: "debutant", art: "colours", color: "#e63946",
     title: "Les couleurs", en: "Colours",
@@ -39,9 +34,7 @@ const UNITS = [
                "La couleur ne change jamais : « a white shirt », « two white shirts ».",
                "Pour demander une couleur : « What colour is it? »"],
       examples: [["I have a black bag.", "J'ai un sac noir."], ["What colour is your car?", "De quelle couleur est ta voiture ?"]] },
-    words: [["red","rouge","🔴"],["blue","bleu","🔵"],["green","vert","🟢"],["yellow","jaune","🟡"],["black","noir","⚫"],["white","blanc","⚪"],["orange","orange","🟠"],["brown","marron","🟤"],["purple","violet","🟣"],["pink","rose","🌸"]],
-    sentences: [["The sky is blue","Le ciel est bleu"],["My car is white","Ma voiture est blanche"],["I like the green shirt","J'aime la chemise verte"]],
-    gaps: [["The sun is ___.","yellow","Le soleil est jaune."],["The grass is ___.","green","L'herbe est verte."],["Tomatoes are ___.","red","Les tomates sont rouges."]] },
+    words: [["red","rouge","🔴"],["blue","bleu","🔵"],["green","vert","🟢"],["yellow","jaune","🟡"],["black","noir","⚫"],["white","blanc","⚪"],["orange","orange","🟠"],["brown","marron","🟤"],["purple","violet","🟣"],["pink","rose","🌸"]], },
 
   { id: "family", level: "debutant", art: "family", color: "#8338ec",
     title: "La famille", en: "Family",
@@ -50,9 +43,7 @@ const UNITS = [
                "« his » = son / sa quand on parle d'un homme, « her » quand on parle d'une femme.",
                "Exemple : « Ali and his sister » mais « Awa and her brother »."],
       examples: [["This is my wife.", "Voici ma femme."], ["Awa lives with her grandmother.", "Awa vit avec sa grand-mère."]] },
-    words: [["mother","mère","👩"],["father","père","👨"],["brother","frère","👦"],["sister","sœur","👧"],["husband","mari","🤵"],["wife","épouse","👰"],["child","enfant","🧒"],["baby","bébé","👶"],["grandmother","grand-mère","👵"],["grandfather","grand-père","👴"]],
-    sentences: [["This is my brother","Voici mon frère"],["My wife is a teacher","Ma femme est enseignante"],["We have three children","Nous avons trois enfants"]],
-    gaps: [["My ___ is a doctor. She works at the hospital.","mother","Ma mère est médecin. Elle travaille à l'hôpital."],["The ___ is sleeping.","baby","Le bébé dort."],["My father's father is my ___.","grandfather","Le père de mon père est mon grand-père."]] },
+    words: [["mother","mère","👩"],["father","père","👨"],["brother","frère","👦"],["sister","sœur","👧"],["husband","mari","🤵"],["wife","épouse","👰"],["child","enfant","🧒"],["baby","bébé","👶"],["grandmother","grand-mère","👵"],["grandfather","grand-père","👴"]], },
 
   { id: "food", level: "debutant", art: "food", color: "#fb8500",
     title: "Au marché", en: "At the market",
@@ -61,20 +52,16 @@ const UNITS = [
                "Pour demander poliment : « I would like… » (je voudrais…), plus poli que « I want ».",
                "« some » s'utilise pour une quantité : « some rice », « some water »."],
       examples: [["How much is the fish?", "Combien coûte le poisson ?"], ["I would like some bread, please.", "Je voudrais du pain, s'il vous plaît."]] },
-    words: [["bread","pain","🍞"],["water","eau","💧"],["rice","riz","🍚"],["meat","viande","🥩"],["fish","poisson","🐟"],["chicken","poulet","🍗"],["milk","lait","🥛"],["egg","œuf","🥚"],["tomato","tomate","🍅"],["onion","oignon","🧅"]],
-    sentences: [["How much is the rice ?","Combien coûte le riz ?"],["I would like some bread","Je voudrais du pain"],["The fish is very fresh","Le poisson est très frais"]],
-    gaps: [["I drink a glass of ___.","water","Je bois un verre d'eau."],["I would like two kilos of ___.","rice","Je voudrais deux kilos de riz."],["I eat an ___ for breakfast.","egg","Je mange un œuf au petit déjeuner."]] },
+    words: [["bread","pain","🍞"],["water","eau","💧"],["rice","riz","🍚"],["meat","viande","🥩"],["fish","poisson","🐟"],["chicken","poulet","🍗"],["milk","lait","🥛"],["egg","œuf","🥚"],["tomato","tomate","🍅"],["onion","oignon","🧅"]], },
 
   { id: "office", level: "debutant", art: "office", color: "#2a9d8f",
     title: "Au bureau", en: "At the office",
     lesson: { title: "Dire où l'on travaille",
-      points: ["« I work at… » + nom de l'entreprise : I work at Smart Consulting.",
+      points: ["« I work at… » + nom de l'entreprise : I work at Sahel Accounting.",
                "« I work in… » + un lieu ou un secteur : I work in an office, I work in finance.",
                "« I am a / an… » + métier : I am an accountant (« an » devant une voyelle)."],
       examples: [["I am an accountant.", "Je suis comptable."], ["I work in an office in Niamey.", "Je travaille dans un bureau à Niamey."]] },
-    words: [["office","bureau (lieu)","🏢"],["meeting","réunion","👥"],["computer","ordinateur","💻"],["printer","imprimante","🖨️"],["colleague","collègue","🤝"],["boss","patron / chef","👔"],["invoice","facture","🧾"],["report","rapport","📄"],["email","e-mail","📧"],["pen","stylo","🖊️"]],
-    sentences: [["The meeting starts at ten","La réunion commence à dix heures"],["Please send me the invoice","Veuillez m'envoyer la facture"],["I work in an accounting firm","Je travaille dans un cabinet comptable"]],
-    gaps: [["My ___ is broken. I cannot print.","printer","Mon imprimante est en panne. Je ne peux pas imprimer."],["I write the monthly ___.","report","Je rédige le rapport mensuel."],["Please send me an ___.","email","Envoyez-moi un e-mail, s'il vous plaît."]] },
+    words: [["office","bureau (lieu)","🏢"],["meeting","réunion","👥"],["computer","ordinateur","💻"],["printer","imprimante","🖨️"],["colleague","collègue","🤝"],["boss","patron / chef","👔"],["invoice","facture","🧾"],["report","rapport","📄"],["email","e-mail","📧"],["pen","stylo","🖊️"]], },
 
   { id: "days", level: "debutant", art: "days", color: "#06a77d",
     title: "Jours et temps", en: "Days and time",
@@ -83,9 +70,7 @@ const UNITS = [
                "On dit « on » devant un jour : on Monday (lundi), on Fridays (le vendredi, chaque semaine).",
                "today = aujourd'hui, tomorrow = demain, yesterday = hier."],
       examples: [["The club meets on Saturday.", "Le club se réunit samedi."], ["See you tomorrow!", "À demain !"]] },
-    words: [["Monday","lundi","📅"],["Tuesday","mardi","📅"],["Wednesday","mercredi","📅"],["Thursday","jeudi","📅"],["Friday","vendredi","📅"],["Saturday","samedi","🎉"],["Sunday","dimanche","⛪"],["today","aujourd'hui","☀️"],["tomorrow","demain","➡️"],["yesterday","hier","⬅️"]],
-    sentences: [["Today is Monday","Aujourd'hui, c'est lundi"],["See you on Friday","À vendredi"],["I was at home yesterday","J'étais à la maison hier"]],
-    gaps: [["The day after Monday is ___.","Tuesday","Le jour après lundi, c'est mardi."],["I don't work on ___. I go to church.","Sunday","Je ne travaille pas le dimanche. Je vais à l'église."],["___ I was sick, but today I am fine.","yesterday","Hier j'étais malade, mais aujourd'hui ça va."]] },
+    words: [["Monday","lundi","📅"],["Tuesday","mardi","📅"],["Wednesday","mercredi","📅"],["Thursday","jeudi","📅"],["Friday","vendredi","📅"],["Saturday","samedi","🎉"],["Sunday","dimanche","⛪"],["today","aujourd'hui","☀️"],["tomorrow","demain","➡️"],["yesterday","hier","⬅️"]], },
 
   { id: "verbs", level: "debutant", art: "verbs", color: "#ef476f",
     title: "Verbes utiles", en: "Useful verbs",
@@ -94,9 +79,7 @@ const UNITS = [
                "Pour la négation : « I don't work » / « she doesn't work » (et plus de « s » sur le verbe).",
                "« to » devant un verbe indique l'infinitif : to eat = manger."],
       examples: [["She speaks English very well.", "Elle parle très bien anglais."], ["He doesn't eat meat.", "Il ne mange pas de viande."]] },
-    words: [["to eat","manger","🍽️"],["to drink","boire","🥤"],["to sleep","dormir","😴"],["to work","travailler","💼"],["to speak","parler","🗣️"],["to read","lire","📖"],["to write","écrire","✍️"],["to buy","acheter","🛒"],["to walk","marcher","🚶"],["to learn","apprendre","🎓"]],
-    sentences: [["I speak a little English","Je parle un peu anglais"],["I want to learn English","Je veux apprendre l'anglais"],["I do not understand","Je ne comprends pas"]],
-    gaps: [["I want to ___ a new phone.","buy","Je veux acheter un nouveau téléphone."],["I ___ the newspaper every morning.","read","Je lis le journal tous les matins."],["I am tired. I want to ___.","sleep","Je suis fatigué. Je veux dormir."]] },
+    words: [["to eat","manger","🍽️"],["to drink","boire","🥤"],["to sleep","dormir","😴"],["to work","travailler","💼"],["to speak","parler","🗣️"],["to read","lire","📖"],["to write","écrire","✍️"],["to buy","acheter","🛒"],["to walk","marcher","🚶"],["to learn","apprendre","🎓"]], },
 
   { id: "house", level: "debutant", art: "house", color: "#bc6c25",
     title: "La maison", en: "The house",
@@ -105,9 +88,7 @@ const UNITS = [
                "« There are » = il y a, pour plusieurs choses : There are two chairs.",
                "Question : « Is there a kitchen? » (Y a-t-il une cuisine ?)"],
       examples: [["There is a television in the living room.", "Il y a une télévision dans le salon."], ["There are three bedrooms.", "Il y a trois chambres."]] },
-    words: [["house","maison","🏠"],["door","porte","🚪"],["window","fenêtre","🪟"],["bed","lit","🛏️"],["chair","chaise","🪑"],["kitchen","cuisine","🍳"],["key","clé","🔑"],["living room","salon","🛋️"],["bathroom","salle de bain","🛁"],["television","télévision","📺"]],
-    sentences: [["Close the door , please","Fermez la porte, s'il vous plaît"],["My house has two bedrooms","Ma maison a deux chambres"],["Where is the key ?","Où est la clé ?"]],
-    gaps: [["Open the ___. It is hot in here.","window","Ouvre la fenêtre. Il fait chaud ici."],["I cook in the ___.","kitchen","Je cuisine dans la cuisine."],["I lost my ___. I cannot open the door.","key","J'ai perdu ma clé. Je ne peux pas ouvrir la porte."]] },
+    words: [["house","maison","🏠"],["door","porte","🚪"],["window","fenêtre","🪟"],["bed","lit","🛏️"],["chair","chaise","🪑"],["kitchen","cuisine","🍳"],["key","clé","🔑"],["living room","salon","🛋️"],["bathroom","salle de bain","🛁"],["television","télévision","📺"]], },
 
   { id: "town", level: "debutant", art: "town", color: "#4361ee",
     title: "En ville", en: "In town",
@@ -116,9 +97,7 @@ const UNITS = [
                "turn left = tournez à gauche, turn right = tournez à droite, go straight = allez tout droit.",
                "« by » pour le moyen de transport : by bus, by taxi, by car. Mais à pied : on foot."],
       examples: [["Excuse me, where is the hospital?", "Excusez-moi, où est l'hôpital ?"], ["I go to work by motorbike.", "Je vais au travail à moto."]] },
-    words: [["car","voiture","🚗"],["bus","bus","🚌"],["taxi","taxi","🚕"],["motorbike","moto","🏍️"],["bicycle","vélo","🚲"],["shop","boutique","🏪"],["hospital","hôpital","🏥"],["bank","banque","🏦"],["school","école","🏫"],["street","rue","🛣️"]],
-    sentences: [["Where is the bank ?","Où est la banque ?"],["I take a taxi to work","Je prends un taxi pour aller au travail"],["Turn left after the school","Tournez à gauche après l'école"]],
-    gaps: [["I take the ___ to the market.","bus","Je prends le bus pour aller au marché."],["The children go to ___ every morning.","school","Les enfants vont à l'école tous les matins."],["I need money. Where is the ___?","bank","J'ai besoin d'argent. Où est la banque ?"]] },
+    words: [["car","voiture","🚗"],["bus","bus","🚌"],["taxi","taxi","🚕"],["motorbike","moto","🏍️"],["bicycle","vélo","🚲"],["shop","boutique","🏪"],["hospital","hôpital","🏥"],["bank","banque","🏦"],["school","école","🏫"],["street","rue","🛣️"]], },
 
   // ---------------------------------------------------------------- INTERMÉDIAIRE
   { id: "intro", level: "intermediaire", art: "intro", color: "#7209b7",
@@ -128,20 +107,16 @@ const UNITS = [
                "Métier : « I work as an accountant » ou « I'm an accountant ».",
                "Expérience : « I have been working here for six years » (depuis six ans, et ça continue)."],
       examples: [["I have been an accountant for six years.", "Je suis comptable depuis six ans."], ["In my free time, I enjoy singing.", "Pendant mon temps libre, j'aime chanter."]] },
-    words: [["name","nom","🪪"],["job","métier","💼"],["accountant","comptable","🧮"],["city","ville","🏙️"],["country","pays","🌍"],["age","âge","🎂"],["hobby","loisir","⚽"],["married","marié(e)","💍"],["single","célibataire","🙋"],["language","langue","🗣️"]],
-    sentences: [["My name is Charles and I live in Niamey","Je m'appelle Charles et j'habite à Niamey"],["I have been working as an accountant for six years","Je travaille comme comptable depuis six ans"],["In my free time , I enjoy reading and singing","Pendant mon temps libre, j'aime lire et chanter"]],
-    gaps: [["I speak two ___ : French and Hausa.","languages","Je parle deux langues : le français et le haoussa."],["What is your ___? I'm a teacher.","job","Quel est votre métier ? Je suis enseignant."],["I come from Togo, a small ___ in West Africa.","country","Je viens du Togo, un petit pays d'Afrique de l'Ouest."]] },
+    words: [["name","nom","🪪"],["job","métier","💼"],["accountant","comptable","🧮"],["city","ville","🏙️"],["country","pays","🌍"],["age","âge","🎂"],["hobby","loisir","⚽"],["married","marié(e)","💍"],["single","célibataire","🙋"],["language","langue","🗣️"]], },
 
   { id: "phone", level: "intermediaire", art: "phone", color: "#0077b6",
     title: "Au téléphone", en: "On the phone",
     lesson: { title: "Les phrases clés d'un appel",
-      points: ["Se présenter : « This is Charles from Smart Consulting. » (et non « I am Charles »).",
+      points: ["Se présenter : « This is Amina from Sahel Accounting. » (et non « I am Charles »).",
                "Demander quelqu'un : « Could I speak to Mrs Diallo, please? »",
                "Faire patienter : « Hold on, please » ou « One moment, please »."],
       examples: [["Could you call me back later?", "Pourriez-vous me rappeler plus tard ?"], ["Sorry, I think you have the wrong number.", "Désolé, je crois que vous vous êtes trompé de numéro."]] },
-    words: [["to call","appeler","📞"],["to call back","rappeler","🔁"],["message","message","💬"],["number","numéro","🔢"],["hold on","patientez","⏳"],["to hang up","raccrocher","📵"],["to answer","répondre","☎️"],["busy","occupé","🚫"],["available","disponible","✅"],["wrong number","faux numéro","❓"]],
-    sentences: [["Hello , this is Charles from Smart Consulting","Bonjour, ici Charles de Smart Consulting"],["Could I speak to Mrs Diallo , please ?","Pourrais-je parler à Mme Diallo, s'il vous plaît ?"],["She is busy at the moment , can I take a message ?","Elle est occupée pour le moment, puis-je prendre un message ?"]],
-    gaps: [["She is not ___ now. She is in a meeting.","available","Elle n'est pas disponible maintenant. Elle est en réunion."],["Can I leave a ___ for him?","message","Puis-je lui laisser un message ?"],["Please ___ , I will check his schedule.","hold on","Patientez, s'il vous plaît, je vérifie son agenda."]] },
+    words: [["to call","appeler","📞"],["to call back","rappeler","🔁"],["message","message","💬"],["number","numéro","🔢"],["hold on","patientez","⏳"],["to hang up","raccrocher","📵"],["to answer","répondre","☎️"],["busy","occupé","🚫"],["available","disponible","✅"],["wrong number","faux numéro","❓"]], },
 
   { id: "meeting", level: "intermediaire", art: "meeting", color: "#264653",
     title: "Réunions de travail", en: "Business meetings",
@@ -150,9 +125,7 @@ const UNITS = [
                "Être d'accord : « I agree with you. » Attention : on ne dit pas « I am agree ».",
                "Ne pas être d'accord poliment : « I see your point, but… »"],
       examples: [["I agree with you, but the deadline is too short.", "Je suis d'accord avec vous, mais le délai est trop court."], ["Let's move to the next point on the agenda.", "Passons au point suivant de l'ordre du jour."]] },
-    words: [["agenda","ordre du jour","📋"],["minutes","compte rendu","📝"],["deadline","date limite","⏰"],["schedule","planning","🗓️"],["budget","budget","💰"],["to agree","être d'accord","👍"],["to disagree","ne pas être d'accord","👎"],["proposal","proposition","📑"],["decision","décision","⚖️"],["participant","participant","🙋"]],
-    sentences: [["Let's start the meeting with the first point","Commençons la réunion par le premier point"],["I agree with you , but the budget is too small","Je suis d'accord avec vous, mais le budget est trop petit"],["Who will write the minutes of this meeting ?","Qui va rédiger le compte rendu de cette réunion ?"]],
-    gaps: [["The ___ for the report is Friday.","deadline","La date limite pour le rapport est vendredi."],["Please read the ___ before the meeting.","agenda","Veuillez lire l'ordre du jour avant la réunion."],["We need to make a ___ today.","decision","Nous devons prendre une décision aujourd'hui."]] },
+    words: [["agenda","ordre du jour","📋"],["minutes","compte rendu","📝"],["deadline","date limite","⏰"],["schedule","planning","🗓️"],["budget","budget","💰"],["to agree","être d'accord","👍"],["to disagree","ne pas être d'accord","👎"],["proposal","proposition","📑"],["decision","décision","⚖️"],["participant","participant","🙋"]], },
 
   { id: "money", level: "intermediaire", art: "money", color: "#2d6a4f",
     title: "Argent et banque", en: "Money and banking",
@@ -161,9 +134,7 @@ const UNITS = [
                "« to pay for » : I paid for the ticket (j'ai payé le billet), sans « for » devant une personne : I paid the driver.",
                "« to borrow » = emprunter, « to lend » = prêter."],
       examples: [["I would like to open a bank account.", "Je voudrais ouvrir un compte bancaire."], ["Can I pay by credit card?", "Puis-je payer par carte bancaire ?"]] },
-    words: [["money","argent","💵"],["bank account","compte bancaire","🏦"],["cash","espèces","💶"],["credit card","carte bancaire","💳"],["loan","prêt","🤝"],["interest rate","taux d'intérêt","📈"],["tax","impôt / taxe","🏛️"],["receipt","reçu","🧾"],["balance","solde","⚖️"],["transfer","virement","🔄"]],
-    sentences: [["I would like to open a bank account","Je voudrais ouvrir un compte bancaire"],["Can I pay by credit card or only in cash ?","Puis-je payer par carte ou seulement en espèces ?"],["Please give me a receipt for this payment","Donnez-moi un reçu pour ce paiement, s'il vous plaît"]],
-    gaps: [["I need a ___ from the bank to buy a car.","loan","J'ai besoin d'un prêt de la banque pour acheter une voiture."],["What is the ___ of my account?","balance","Quel est le solde de mon compte ?"],["I made a ___ to my supplier yesterday.","transfer","J'ai fait un virement à mon fournisseur hier."]] },
+    words: [["money","argent","💵"],["bank account","compte bancaire","🏦"],["cash","espèces","💶"],["credit card","carte bancaire","💳"],["loan","prêt","🤝"],["interest rate","taux d'intérêt","📈"],["tax","impôt / taxe","🏛️"],["receipt","reçu","🧾"],["balance","solde","⚖️"],["transfer","virement","🔄"]], },
 
   { id: "travel", level: "intermediaire", art: "travel", color: "#00b4d8",
     title: "Voyage", en: "Travel",
@@ -172,9 +143,7 @@ const UNITS = [
                "« will » pour une décision prise sur le moment : I'll take a taxi.",
                "À l'aéroport : « Where is the check-in desk? » (Où est l'enregistrement ?)"],
       examples: [["My flight is going to leave at six.", "Mon vol va partir à six heures."], ["I'll carry your luggage.", "Je vais porter tes bagages."]] },
-    words: [["airport","aéroport","🛫"],["flight","vol","✈️"],["ticket","billet","🎫"],["passport","passeport","🛂"],["luggage","bagages","🧳"],["hotel","hôtel","🏨"],["reservation","réservation","📝"],["arrival","arrivée","🛬"],["delay","retard","⏰"],["map","carte / plan","🗺️"]],
-    sentences: [["I have a reservation for two nights","J'ai une réservation pour deux nuits"],["My flight is delayed by one hour","Mon vol a une heure de retard"],["Could you show me the way to the hotel ?","Pourriez-vous m'indiquer le chemin de l'hôtel ?"]],
-    gaps: [["Please show me your ___ at the border.","passport","Montrez-moi votre passeport à la frontière, s'il vous plaît."],["My ___ is too heavy.","luggage","Mes bagages sont trop lourds."],["I booked a room at the ___.","hotel","J'ai réservé une chambre à l'hôtel."]] },
+    words: [["airport","aéroport","🛫"],["flight","vol","✈️"],["ticket","billet","🎫"],["passport","passeport","🛂"],["luggage","bagages","🧳"],["hotel","hôtel","🏨"],["reservation","réservation","📝"],["arrival","arrivée","🛬"],["delay","retard","⏰"],["map","carte / plan","🗺️"]], },
 
   { id: "health", level: "intermediaire", art: "health", color: "#d62828",
     title: "Santé", en: "Health",
@@ -183,7 +152,5 @@ const UNITS = [
                "Pour une partie du corps : « My back hurts » (j'ai mal au dos).",
                "Chez le médecin : « I would like to make an appointment. »"],
       examples: [["I have had a headache since yesterday.", "J'ai mal à la tête depuis hier."], ["Take this medicine twice a day.", "Prenez ce médicament deux fois par jour."]] },
-    words: [["doctor","médecin","🧑‍⚕️"],["nurse","infirmier / infirmière","💉"],["hospital","hôpital","🏥"],["medicine","médicament","💊"],["headache","mal de tête","🤕"],["fever","fièvre","🌡️"],["cough","toux","😷"],["appointment","rendez-vous","📅"],["pharmacy","pharmacie","⚕️"],["to rest","se reposer","🛌"]],
-    sentences: [["I would like to make an appointment with the doctor","Je voudrais prendre rendez-vous avec le médecin"],["I have had a fever since Monday","J'ai de la fièvre depuis lundi"],["You should drink water and rest at home","Vous devriez boire de l'eau et vous reposer à la maison"]],
-    gaps: [["You can buy this medicine at the ___.","pharmacy","Vous pouvez acheter ce médicament à la pharmacie."],["I have a ___. My temperature is 39 degrees.","fever","J'ai de la fièvre. Ma température est de 39 degrés."],["I have an ___ with the doctor at 10 a.m.","appointment","J'ai rendez-vous chez le médecin à 10 heures."]] }
+    words: [["doctor","médecin","🧑‍⚕️"],["nurse","infirmier / infirmière","💉"],["hospital","hôpital","🏥"],["medicine","médicament","💊"],["headache","mal de tête","🤕"],["fever","fièvre","🌡️"],["cough","toux","😷"],["appointment","rendez-vous","📅"],["pharmacy","pharmacie","⚕️"],["to rest","se reposer","🛌"]], }
 ];

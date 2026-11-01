@@ -1,6 +1,8 @@
-/* English Pas à Pas — logique de l'application (accueil, unités, 6 jeux, points et étoiles). */
+/* English Pas à Pas — logique de l'application (accueil, histoires, 8 jeux, micro, points et étoiles). */
 
 const GAMES = [
+  { id: "comp",   ic: "📖", tint: "#fff1b8", name: "Questions sur l'histoire", k: "4 questions", d: "Répondez à l'oral ou en touchant la bonne réponse." },
+  { id: "repeat", ic: "🎙️", tint: "#d0f4f0", name: "Répéter après l'audio",   k: "5 phrases",   d: "Écoutez une phrase de l'histoire, puis répétez-la." },
   { id: "quiz",   ic: "❓", tint: "#ffe8a3", name: "Quiz illustré",          k: "8 questions", d: "Une image ou un mot : trouvez la bonne réponse." },
   { id: "pairs",  ic: "🔗", tint: "#cfe3ff", name: "Associer les paires",    k: "5 paires",    d: "Reliez chaque mot anglais à sa traduction." },
   { id: "listen", ic: "🎧", tint: "#d8f3dc", name: "Écoute",                 k: "8 mots",      d: "Écoutez le mot et choisissez comment il s'écrit." },
@@ -47,6 +49,74 @@ function speak(text) {
   } catch (e) { return false; }
 }
 function bindSay() { $app.querySelectorAll("[data-say]").forEach(b => b.onclick = () => speak(b.dataset.say)); }
+const plain = s => s.replace(/[“”"]/g, "");
+
+/* ---------- Micro : reconnaissance vocale (Chrome, Edge, Safari récents) ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const canListen = () => !!SR;
+let rec = null;
+function listenOnce(onText, onError, onEnd) {
+  try {
+    if (rec) { try { rec.abort(); } catch (e) {} }
+    speechSynthesis && speechSynthesis.cancel && speechSynthesis.cancel();
+    rec = new SR();
+    rec.lang = "en-US"; rec.interimResults = false; rec.maxAlternatives = 3;
+    let got = false;
+    rec.onresult = e => { got = true; onText(Array.from(e.results[0]).map(a => a.transcript)); };
+    rec.onerror = e => { got = true; onError(e.error); };
+    rec.onend = () => { if (!got) onError("no-speech"); onEnd && onEnd(); };
+    rec.start();
+  } catch (e) { onError("start"); onEnd && onEnd(); }
+}
+const MIC_ERR = {
+  "not-allowed": "Le micro est bloqué. Touchez le cadenas à côté de l'adresse, puis autorisez le micro.",
+  "service-not-allowed": "Le micro est bloqué. Touchez le cadenas à côté de l'adresse, puis autorisez le micro.",
+  "no-speech": "Je n'ai rien entendu. Touchez le micro et parlez juste après.",
+  "network": "La reconnaissance vocale a besoin d'internet. Vérifiez votre connexion.",
+  "audio-capture": "Aucun micro trouvé sur cet appareil.",
+  "start": "Le micro n'a pas pu démarrer. Réessayez."
+};
+const micMsg = code => MIC_ERR[code] || "Le micro n'a pas fonctionné. Réessayez.";
+
+/* Comparaison de ce qui a été dit avec le texte attendu */
+const NUM = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty".split(" ");
+const TENS = { 30: "thirty", 40: "forty", 50: "fifty", 60: "sixty", 70: "seventy", 80: "eighty", 90: "ninety" };
+function numWord(n) {
+  n = +n;
+  if (n <= 20) return NUM[n];
+  if (n < 100) { const t = Math.floor(n / 10) * 10, r = n % 10; return (n < 30 ? "twenty" : TENS[t]) + (r ? " " + NUM[r] : ""); }
+  return String(n);
+}
+const CONTR = { "i'm": "i am", "it's": "it is", "he's": "he is", "she's": "she is", "that's": "that is", "what's": "what is", "let's": "let us", "don't": "do not", "doesn't": "does not", "didn't": "did not", "can't": "can not", "cannot": "can not", "won't": "will not", "i'll": "i will", "he'll": "he will", "she'll": "she will", "we'll": "we will", "you're": "you are", "we're": "we are", "they're": "they are", "isn't": "is not", "aren't": "are not", "i've": "i have", "o'clock": "o clock", "mr": "mister", "mrs": "missus", "mum": "mom", "colour": "color", "colours": "colors", "favourite": "favorite", "grey": "gray" };
+function words(s) {
+  s = s.toLowerCase().replace(/[’‘]/g, "'").replace(/(\d+)%/g, "$1 percent").replace(/(\d),(\d)/g, "$1$2").replace(/-/g, " ");
+  s = s.replace(/\d+/g, d => numWord(d));
+  return s.replace(/[^a-z' ]/g, " ").split(/\s+/).filter(Boolean)
+    .map(w => CONTR[w] || w.replace(/^'+|'+$/g, "")).join(" ").split(" ").filter(Boolean);
+}
+function matchWords(target, heard) {
+  const bag = {}; heard.forEach(w => bag[w] = (bag[w] || 0) + 1);
+  return target.map(w => { if (bag[w]) { bag[w]--; return true; } return false; });
+}
+/* Retourne {score, marks} : marks = mots du texte avec vrai/faux */
+function scoreSpeech(text, alts) {
+  const t = words(text); let best = { score: 0, marks: t.map(() => false), heard: alts[0] || "" };
+  alts.forEach(a => {
+    const m = matchWords(t, words(a)), sc = t.length ? m.filter(Boolean).length / t.length : 0;
+    if (sc > best.score) best = { score: sc, marks: m, heard: a };
+  });
+  best.words = t;
+  return best;
+}
+function marked(res) {
+  return res.words.map((w, i) => '<span class="' + (res.marks[i] ? "w-ok" : "w-ko") + '">' + esc(w) + "</span>").join(" ");
+}
+const STOP = new Set(["the", "a", "an", "to", "in", "on", "at", "of", "and", "is", "it", "his", "her", "for"]);
+function answerHeard(answer, alts) {
+  const key = words(answer).filter(w => !STOP.has(w));
+  const need = key.length ? key : words(answer);
+  return alts.some(a => { const h = new Set(words(a)); return need.filter(w => h.has(w)).length / need.length >= .75; });
+}
 
 /* ---------- Points et niveaux ---------- */
 function updateHeader() {
@@ -64,7 +134,7 @@ function welcome() {
     '<div class="welcome">' +
       '<div><span class="club"><i></i>Proposé par l\'Anndaal English Club</span>' +
         '<h1>Parlez anglais <em>pas à pas</em>, en jouant.</h1>' +
-        '<p class="intro">Des mots du quotidien, du bureau et du voyage, une petite leçon par unité et six jeux pour retenir sans effort. Quelques minutes par jour suffisent.</p>' +
+        '<p class="intro">Chaque unité commence par une courte histoire à écouter et à lire à voix haute. Ensuite, une petite leçon et des jeux pour retenir les mots et oser parler.</p>' +
         '<form class="form" id="startForm" novalidate>' +
           '<div><label for="name">Votre prénom</label><input type="text" id="name" maxlength="30" autocomplete="given-name" placeholder="Par exemple : Aïcha" value="' + esc(P.name) + '"></div>' +
           '<div><label>Votre niveau</label><div class="levels">' +
@@ -77,7 +147,8 @@ function welcome() {
     "</div>" +
     '<div class="features">' +
       '<div class="feature"><span class="ic">📚</span><h3>' + UNITS.length + ' unités illustrées</h3><span class="muted">Salutations, marché, bureau, téléphone, banque, voyage, santé…</span></div>' +
-      '<div class="feature"><span class="ic">🎮</span><h3>6 jeux</h3><span class="muted">Quiz, paires, écoute, dictée, phrases à construire et à compléter.</span></div>' +
+      '<div class="feature"><span class="ic">📖</span><h3>Une histoire par unité</h3><span class="muted">Suivez Amina, sa famille et son collègue Kofi. Écoutez, puis lisez à voix haute.</span></div>' +
+      '<div class="feature"><span class="ic">🎙️</span><h3>8 jeux, dont 2 à l\'oral</h3><span class="muted">Questions sur l\'histoire, répétition, quiz, paires, écoute, dictée, phrases.</span></div>' +
       '<div class="feature"><span class="ic">⭐</span><h3>Points et étoiles</h3><span class="muted">10 points par bonne réponse, un niveau tous les 100 points.</span></div>' +
     "</div>";
   $app.querySelectorAll("[data-lv]").forEach(b => b.onclick = () => {
@@ -122,30 +193,77 @@ function home() {
   toTop();
 }
 
-/* ---------- Une unité : leçon, jeux, vocabulaire ---------- */
+/* ---------- Une unité : histoire, leçon, jeux, vocabulaire ---------- */
 function unit(id) {
-  const u = unitById(id), idx = unitsOf(u.level).indexOf(u) + 1;
+  const u = unitById(id), idx = unitsOf(u.level).indexOf(u) + 1, st = STORIES[u.id];
+  const mic = canListen();
   let h = '<button class="back" id="back">← Toutes les unités</button>' +
     '<div class="unit-head"><span class="art">' + ART[u.art](u.color) + "</span><div>" +
     '<p class="muted" style="margin:0">' + LEVELS[u.level].name + " · Unité " + idx + "</p><h1>" + esc(u.title) + "</h1>" +
-    '<p class="muted" style="margin:4px 0 0">' + esc(u.en) + " — " + starsHTML(Math.min(3, Math.floor(unitStars(u) / 6))) + " " + unitStars(u) + " / " + MAX_UNIT + " étoiles</p></div></div>" +
-    '<div class="lesson"><span class="k">La leçon</span><h3>' + esc(u.lesson.title) + "</h3><ul>" + u.lesson.points.map(p => "<li>" + esc(p) + "</li>").join("") + "</ul>" +
+    '<p class="muted" style="margin:4px 0 0">' + esc(u.en) + " — " + unitStars(u) + " / " + MAX_UNIT + " étoiles</p></div></div>" +
+    '<ol class="path"><li class="on">1. Lire l\'histoire</li><li>2. La leçon</li><li>3. Les jeux</li></ol>' +
+    '<article class="story" id="story"><span class="k">L\'histoire</span><h2>' + esc(st.title) + "</h2>" +
+    '<p class="muted" style="margin:6px 0 12px">Écoutez chaque phrase, puis lisez-la à voix haute' + (mic ? " avec le bouton micro." : ".") + " Touchez « FR » pour voir la traduction.</p>" +
+    '<div class="story-tools">' + (canSpeak() ? '<button class="btn" id="playAll">🔊 Écouter toute l\'histoire</button>' : "") +
+    '<button class="btn alt" id="allFr">Afficher toutes les traductions</button></div>' +
+    '<div class="lines">' + st.lines.map((l, i) =>
+      '<div class="line" id="line' + i + '"><p class="en">' + esc(l[0]) + '</p><p class="fr" hidden>' + esc(l[1]) + "</p>" +
+      '<div class="line-tools">' + (canSpeak() ? '<button class="say" data-say="' + esc(plain(l[0])) + '" aria-label="Écouter la phrase">🔊 Écouter</button>' : "") +
+      (mic ? '<button class="say mic" data-read="' + i + '" aria-label="Lire la phrase au micro">🎙️ Lire</button>' : "") +
+      '<button class="say" data-fr="' + i + '">FR</button></div><div class="read-res" id="res' + i + '" aria-live="polite"></div></div>').join("") + "</div>" +
+    (mic ? "" : '<p class="note">Pour lire à voix haute et être corrigé, ouvrez l\'application dans Chrome (ordinateur ou Android) ou dans Safari sur iPhone.</p>') +
+    '<div class="club-q"><span class="k">À discuter en club</span><ul>' + st.discuss.map(q => "<li>" + esc(q) + "</li>").join("") + "</ul></div>" +
+    '<div class="actions"><button class="btn go" id="toGames">J\'ai lu l\'histoire : aux jeux !</button></div></article>' +
+    '<div class="lesson" id="lesson"><span class="k">La leçon</span><h3>' + esc(u.lesson.title) + "</h3><ul>" + u.lesson.points.map(p => "<li>" + esc(p) + "</li>").join("") + "</ul>" +
     '<div class="ex">' + u.lesson.examples.map(e => "<div><b>" + esc(e[0]) + "</b><span>" + esc(e[1]) + "</span>" + (canSpeak() ? '<button class="say" data-say="' + esc(e[0]) + '">Écouter</button>' : "") + "</div>").join("") + "</div></div>" +
-    "<section><h2>Les jeux</h2><div class=\"games\">" +
+    '<section id="games"><h2>Les jeux</h2><p class="muted" style="margin:4px 0 0">Tous les jeux utilisent les mots et les phrases de l\'histoire.</p><div class="games">' +
     GAMES.map(g => '<button class="game" data-game="' + g.id + '"><span class="ic" style="background:' + g.tint + '">' + g.ic + '</span><span class="k">' + g.k + "</span><h3>" + g.name + '</h3><span class="muted" style="font-size:.88rem">' + g.d + "</span>" + starsHTML(P.stars[u.id + "-" + g.id] || 0) + "</button>").join("") +
     "</div></section>" +
-    '<div class="vocab"><h3>Les mots de l\'unité</h3><ul>' +
+    '<div class="vocab"><h3>Les mots de l\'histoire</h3><ul>' +
     u.words.map(w => '<li><span class="pic">' + w[2] + "</span><div><b>" + esc(w[0]) + "</b><span>" + esc(w[1]) + "</span></div>" + (canSpeak() ? '<button class="say" data-say="' + esc(w[0]) + '" aria-label="Écouter ' + esc(w[0]) + '">♪</button>' : "<span></span>") + "</li>").join("") +
     "</ul></div>";
   $app.innerHTML = h;
   document.getElementById("back").onclick = home;
   $app.querySelectorAll("[data-game]").forEach(b => b.onclick = () => play(u, b.dataset.game));
+  document.getElementById("toGames").onclick = () => document.getElementById("lesson").scrollIntoView({ behavior: "smooth" });
+  $app.querySelectorAll("[data-fr]").forEach(b => b.onclick = () => { const f = document.querySelector("#line" + b.dataset.fr + " .fr"); f.hidden = !f.hidden; });
+  let shown = false;
+  document.getElementById("allFr").onclick = e => { shown = !shown; $app.querySelectorAll(".line .fr").forEach(f => f.hidden = !shown); e.target.textContent = shown ? "Masquer les traductions" : "Afficher toutes les traductions"; };
+  const pa = document.getElementById("playAll");
+  if (pa) pa.onclick = () => readAll(st.lines);
+  $app.querySelectorAll("[data-read]").forEach(b => b.onclick = () => readLine(st.lines[+b.dataset.read][0], b, document.getElementById("res" + b.dataset.read)));
   bindSay();
   toTop();
 }
+function readAll(lines) {
+  try {
+    speechSynthesis.cancel();
+    lines.forEach((l, i) => {
+      const u = new SpeechSynthesisUtterance(plain(l[0]));
+      u.lang = "en-GB"; u.rate = .85;
+      const v = speechSynthesis.getVoices().find(v => /^en(-|_)/i.test(v.lang)); if (v) u.voice = v;
+      u.onstart = () => { document.querySelectorAll(".line").forEach(x => x.classList.remove("now")); const el = document.getElementById("line" + i); if (el) { el.classList.add("now"); el.scrollIntoView({ block: "center", behavior: "smooth" }); } };
+      u.onend = () => { if (i === lines.length - 1) document.querySelectorAll(".line").forEach(x => x.classList.remove("now")); };
+      speechSynthesis.speak(u);
+    });
+  } catch (e) {}
+}
+/* Lire une phrase au micro et montrer les mots reconnus */
+function readLine(text, btn, out, done) {
+  btn.disabled = true; const label = btn.innerHTML; btn.innerHTML = "🔴 Parlez…";
+  out.innerHTML = '<span class="muted">Je vous écoute…</span>';
+  listenOnce(alts => {
+    const r = scoreSpeech(plain(text), alts), pct = Math.round(r.score * 100);
+    const ok = r.score >= .8;
+    if (ok) addXP(5);
+    out.innerHTML = '<div class="said">' + marked(r) + '</div><b class="' + (ok ? "ok" : "ko") + '">' + pct + " % des mots reconnus" + (ok ? " · Très bien ! +5 XP" : r.score >= .5 ? " · Presque ! Les mots en rouge sont à retravailler." : " · Réessayez plus lentement.") + "</b>";
+    done && done(r.score);
+  }, code => { out.innerHTML = '<b class="ko">' + micMsg(code) + "</b>"; done && done(null); },
+  () => { btn.disabled = false; btn.innerHTML = label; });
+}
 
 /* ---------- Cadre commun des jeux ---------- */
-function play(u, g) { ({ quiz, pairs, listen, dictee, order, gap })[g](u); toTop(); }
+function play(u, g) { if (rec) { try { rec.abort(); } catch (e) {} } ({ comp, repeat, quiz, pairs, listen, dictee, order, gap })[g](u); toTop(); }
 function shell(u, g) {
   const G = GAMES.find(x => x.id === g);
   $app.innerHTML = '<button class="back" id="back">← ' + esc(u.title) + "</button><h2>" + G.ic + " " + G.name + '</h2><div class="play" id="play"></div>';
@@ -191,7 +309,7 @@ function feedback(right, text) {
   fb.textContent = text;
 }
 
-/* 1. Quiz illustré */
+/* 3. Quiz illustré */
 function quiz(u) {
   const W = u.words, box = shell(u, "quiz");
   const picOk = new Set(W.map(w => w[2])).size === W.length;
@@ -217,7 +335,7 @@ function quiz(u) {
   show();
 }
 
-/* 2. Associer les paires */
+/* 4. Associer les paires */
 function pairs(u) {
   const set = shuffle(u.words).slice(0, 5), box = shell(u, "pairs");
   let sel = null, matched = 0, errors = 0;
@@ -247,7 +365,7 @@ function pairs(u) {
   });
 }
 
-/* 3. Écoute */
+/* 5. Écoute */
 function noVoice(u, box) {
   box.innerHTML = '<p>Ce navigateur ne lit pas les mots à voix haute. Ouvrez l\'application dans <b>Chrome</b> ou <b>Safari</b>, ou essayez un autre jeu.</p><div class="actions"><button class="btn" id="toUnit">Retour à l\'unité</button></div>';
   document.getElementById("toUnit").onclick = () => unit(u.id);
@@ -272,7 +390,7 @@ function listen(u) {
   show();
 }
 
-/* 4. Écrire le mot entendu */
+/* 6. Écrire le mot entendu */
 function dictee(u) {
   const box = shell(u, "dictee"), voice = canSpeak();
   const qs = shuffle(u.words).slice(0, 6);
@@ -302,17 +420,19 @@ function dictee(u) {
   show();
 }
 
-/* 5. Construire la phrase */
+/* 7. Construire la phrase (phrases de l'histoire) */
 function order(u) {
-  const S = shuffle(u.sentences).slice(0, 3), box = shell(u, "order");
+  const max = u.level === "debutant" ? 11 : 14;
+  const pool = STORIES[u.id].lines.filter(l => !/[“”]/.test(l[0]) && l[0].split(" ").length >= 4 && l[0].split(" ").length <= max);
+  const S = shuffle(pool).slice(0, 3), box = shell(u, "order");
   let n = 0, good = 0;
   const show = () => {
-    const [en, fr] = S[n], tokens = en.split(" ");
+    const [en, fr] = S[n], target = en.replace(/[.!?]$/, ""), tokens = target.split(" ");
     let tiles = shuffle(tokens.map((t, k) => ({ t, k })));
-    if (tiles.map(x => x.t).join(" ") === en) tiles = tiles.slice(1).concat(tiles[0]);
+    if (tiles.map(x => x.t).join(" ") === target) tiles = tiles.slice(1).concat(tiles[0]);
     let picked = [];
     box.innerHTML = head("Phrase", n, S.length, good) +
-      '<p class="hint" style="margin-top:16px">Traduisez en anglais :</p><div class="prompt pop" style="font-size:1.5rem">' + esc(fr) + "</div>" +
+      '<p class="hint" style="margin-top:16px">Retrouvez cette phrase de l\'histoire :</p><div class="prompt pop" style="font-size:1.4rem">' + esc(fr) + "</div>" +
       '<div class="line-ans" id="line" aria-label="Votre phrase"></div><div class="tiles" id="pool">' +
       tiles.map(x => '<button class="tile" data-k="' + x.k + '">' + esc(x.t) + "</button>").join("") + "</div>" +
       '<div class="actions"><button class="btn" id="check" disabled>Vérifier</button><button class="btn alt" id="clear">Effacer</button></div><div class="feedback" id="fb"></div><div class="fix" id="fix"></div><div class="actions" id="next"></div>';
@@ -326,12 +446,11 @@ function order(u) {
     box.querySelectorAll("#pool .tile").forEach(b => b.onclick = () => { if (!picked.includes(+b.dataset.k)) { picked.push(+b.dataset.k); draw(); } });
     document.getElementById("clear").onclick = () => { picked = []; draw(); };
     check.onclick = () => {
-      const right = picked.map(k => tokens[k]).join(" ") === en;
-      const pretty = en.replace(/ ([?,!.])/g, "$1");
+      const right = picked.map(k => tokens[k]).join(" ") === target;
       if (right) { good++; addXP(10); }
       feedback(right, right ? "Bravo, phrase correcte ! +10 XP" : "Pas tout à fait.");
-      document.getElementById("fix").innerHTML = "Bonne réponse : <b>" + esc(pretty) + "</b>";
-      speak(pretty);
+      document.getElementById("fix").innerHTML = "Dans l'histoire : <b>" + esc(en) + "</b>";
+      speak(en);
       box.querySelectorAll(".tile").forEach(t => t.disabled = true);
       check.disabled = true; document.getElementById("clear").disabled = true;
       nextBtn(n + 1 === S.length, () => { n++; n < S.length ? show() : finish(u, "order", good, S.length); });
@@ -340,15 +459,14 @@ function order(u) {
   show();
 }
 
-/* 6. Compléter la phrase */
+/* 8. Compléter la phrase (phrases de l'histoire) */
 function gap(u) {
-  const G = shuffle(u.gaps), box = shell(u, "gap");
+  const G = shuffle(STORIES[u.id].gaps), box = shell(u, "gap");
   let n = 0, good = 0;
   const show = () => {
-    const [sent, ans, fr] = G[n];
-    const related = w => ans.toLowerCase().startsWith(w[0].toLowerCase()) || w[0].toLowerCase().startsWith(ans.toLowerCase());
-    const opts = shuffle([ans, ...shuffle(u.words.filter(w => !related(w))).slice(0, 3).map(w => w[0])]);
-    const startsWithGap = sent.startsWith("___");
+    const [sent, ans, fr, wrong] = G[n];
+    const startsWithGap = /^[“"]?___/.test(sent);
+    const opts = shuffle([ans, ...wrong]);
     const parts = sent.split("___");
     box.innerHTML = head("Phrase", n, G.length, good) +
       '<div class="gap-sentence pop">' + esc(parts[0]) + '<u id="slot">&nbsp;</u>' + esc(parts[1]) + "</div>" +
@@ -359,9 +477,82 @@ function gap(u) {
       const word = startsWithGap ? cap(ans) : ans;
       document.getElementById("slot").textContent = word;
       feedback(right, right ? "Correct ! +10 XP" : "Le mot qui manquait : « " + ans + " »");
-      speak((parts[0] + word + parts[1]).replace(/ ,/g, ","));
+      speak(plain(parts[0] + word + parts[1]));
       nextBtn(n + 1 === G.length, () => { n++; n < G.length ? show() : finish(u, "gap", good, G.length); });
     });
+  };
+  show();
+}
+
+/* 1. Questions sur l'histoire (réponse à l'oral ou au toucher) */
+function comp(u) {
+  const st = STORIES[u.id], Q = shuffle(st.questions), box = shell(u, "comp"), mic = canListen();
+  let n = 0, good = 0;
+  const show = () => {
+    const [q, ans, ...wrong] = Q[n];
+    const opts = shuffle([ans, ...wrong]);
+    box.innerHTML = head("Question", n, Q.length, good) +
+      '<div class="prompt pop" style="font-size:1.6rem">' + esc(q) + "</div>" +
+      '<p class="hint">' + (canSpeak() ? '<button class="say" data-say="' + esc(q) + '">🔊 Écouter la question</button> ' : "") +
+      '<button class="say" id="peek">Revoir l\'histoire</button></p>' +
+      '<div class="peek" id="peekBox" hidden>' + st.lines.map(l => "<p>" + esc(l[0]) + "</p>").join("") + "</div>" +
+      (mic ? '<div class="actions" style="margin:4px 0 14px"><button class="btn big" id="say">🎙️ Répondre à l\'oral</button></div><p class="hint" id="heard">Dites la réponse en anglais, ou touchez-la ci-dessous.</p>' : "") +
+      '<div class="opts">' + opts.map(o => '<button class="opt" data-o="' + esc(o) + '">' + esc(o) + "</button>").join("") + '</div><div class="feedback" id="fb"></div><div class="actions" id="next"></div>';
+    bindSay();
+    document.getElementById("peek").onclick = () => { const p = document.getElementById("peekBox"); p.hidden = !p.hidden; };
+    let answered = false;
+    const conclude = (right, oral) => {
+      if (answered) return; answered = true;
+      document.querySelectorAll(".opts .opt").forEach(x => { x.disabled = true; if (x.dataset.o === ans) x.classList.add("ok"); });
+      const sb = document.getElementById("say"); if (sb) sb.disabled = true;
+      if (right) { good++; addXP(oral ? 15 : 10); }
+      feedback(right, right ? (oral ? "Bien dit ! +15 XP" : "Correct ! +10 XP") : "La bonne réponse : " + ans);
+      speak(ans);
+      nextBtn(n + 1 === Q.length, () => { n++; n < Q.length ? show() : finish(u, "comp", good, Q.length); });
+    };
+    choiceRound(opts, o => o === ans, right => conclude(right, false));
+    const sb = document.getElementById("say");
+    if (sb) sb.onclick = () => {
+      sb.disabled = true; sb.textContent = "🔴 Parlez…";
+      listenOnce(alts => {
+        document.getElementById("heard").innerHTML = "Vous avez dit : <b>« " + esc(alts[0]) + " »</b>";
+        if (answerHeard(ans, alts)) conclude(true, true);
+        else { const hit = wrong.find(w => answerHeard(w, alts)); if (hit) { const b = [...document.querySelectorAll(".opts .opt")].find(x => x.dataset.o === hit); if (b) b.classList.add("ko"); conclude(false, true); } else feedback(false, "Je n'ai pas reconnu la réponse. Réessayez ou touchez-la."); }
+      }, code => feedback(false, micMsg(code)), () => { if (!answered) { sb.disabled = false; sb.textContent = "🎙️ Répondre à l'oral"; } });
+    };
+  };
+  show();
+}
+
+/* 2. Répéter après l'audio */
+function repeat(u) {
+  const box = shell(u, "repeat");
+  if (!canListen() || !canSpeak()) {
+    box.innerHTML = '<p>Ce jeu a besoin du micro et de la voix du navigateur. Ouvrez l\'application dans <b>Chrome</b> (ordinateur ou Android) ou <b>Safari</b> (iPhone).</p><div class="actions"><button class="btn" id="toUnit">Retour à l\'unité</button></div>';
+    document.getElementById("toUnit").onclick = () => unit(u.id); return;
+  }
+  const max = u.level === "debutant" ? 10 : 14;
+  const S = shuffle(STORIES[u.id].lines.filter(l => plain(l[0]).split(" ").length <= max)).slice(0, 5);
+  let n = 0, good = 0;
+  const show = () => {
+    const [en, fr] = S[n], txt = plain(en);
+    let tries = 0, best = 0;
+    box.innerHTML = head("Phrase", n, S.length, good) +
+      '<p class="hint" style="margin-top:16px">1. Écoutez la phrase. 2. Touchez le micro et répétez-la.</p>' +
+      '<div class="actions"><button class="btn big" id="hear">🔊 Écouter</button><button class="btn big" id="talk">🎙️ Répéter</button></div>' +
+      '<div class="prompt" style="font-size:1.35rem;margin-top:16px" id="txt">' + esc(en) + '</div><p class="hint">' + esc(fr) + "</p>" +
+      '<div class="read-res" id="out" aria-live="polite"></div><div class="actions" id="next"></div>';
+    document.getElementById("hear").onclick = () => speak(txt);
+    const talk = document.getElementById("talk"), out = document.getElementById("out");
+    talk.onclick = () => readLine(txt, talk, out, score => {
+      if (score === null) return;
+      tries++; best = Math.max(best, score);
+      if (best >= .8 || tries >= 3) {
+        if (best >= .8) good++;
+        nextBtn(n + 1 === S.length, () => { n++; n < S.length ? show() : finish(u, "repeat", good, S.length); });
+      } else out.insertAdjacentHTML("beforeend", '<p class="muted">Essai ' + tries + " sur 3. Écoutez encore et réessayez.</p>");
+    });
+    setTimeout(() => speak(txt), 300);
   };
   show();
 }
